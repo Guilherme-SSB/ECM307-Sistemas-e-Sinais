@@ -130,7 +130,7 @@ grid
 %% Respostas:
 %%% a. Cada espectro de amplitude das vogais são plotados na figura 2. A
 %%% análise foi feita caso a caso e os gráficos estão salvos em png no
-%%% repositório: 
+%%% repositório: encurtador.com.br/nxMP4
 %%% 
 %%% b. O tempo de execução da vogal importada está sendo importado e
 %%% printada na Janela de Comandos. Porém, o tempo de cada vogal é:
