@@ -33,7 +33,7 @@ disp('2 - Importando os sinais das vogais ...')
 
 % Para obter o espectro de amplitude de cada vogal, deve-se apenas alterar
 % o valor do parâmetro da função audioread
-[gk, fs] = audioread('a.wav');   % gk ← vetor do sinal amostrado
+[gk, fs] = audioread('i.wav');   % gk ← vetor do sinal amostrado
                                  % fs ← frequência de amostragem
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,7 +86,7 @@ Matriz_expoentes  = [0:1:N-1]'*[0:1:N-1];
 
 Matriz_fourier    = Matriz_jotas.^Matriz_expoentes;
 
-Xf = Matriz_fourier*gk;
+Xf = Matriz_fourier*gk/N;
 fprintf('Utilizando `produto matricial`: ')
 toc;
 
@@ -106,7 +106,7 @@ grid
 
 fig2 = figure(2);
 
-stem(frequencia, fftshift(abs(Xf)))         % fftshift: move a componente de frequência 0 
+plot(frequencia, log10(fftshift(abs(Xf))))  % fftshift: move a componente de frequência 0 )
                                             %para o centro do array 'frequência'
                                             % abs(x): toma a parte real de x
 xlabel('Frequência em Hz')                  
@@ -114,6 +114,8 @@ ylabel('Amplitude')
 title('a) Espectro de amplitude da vogal')
 grid
 %saveas(fig2,'Espectro de amplitude.png')   % Salva a imagem
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -141,7 +143,10 @@ grid
 %%% - Tempo(u) = 0.617 segundos
 %%%
 %%% c. Com a série de Fourier, podemos observar as diferentes componentes
-%%% de frequência que constroem o sinal da vogal amostrado.
+%%% de frequência que constroem o sinal da vogal amostrado. Nota-se que a
+%%% vogal tem energia apenas na banda de -3kHz até + 3kHz, sabendo disso,
+%%% não há necessidade de utilizar hardware para medir valores fora dessa
+%%% faixa. O pico de energia está próxima de 162Hz
 %%%
 %%% d. No domínio temporal, seria muito dificil visualizar as compenentes
 %%% senoidais e cossenoidas do sinal amostrado. Já no domínio das
