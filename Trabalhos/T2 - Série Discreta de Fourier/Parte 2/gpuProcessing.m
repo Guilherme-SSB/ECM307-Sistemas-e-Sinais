@@ -43,7 +43,7 @@ warning('off')   % Não mostra eventos de warning
 %%% Importação dos Sinais
 disp('2 - Importando os sinais das vogais ...')
 
-[gk, fs] = audioread('a/a1.wav');  
+[gk, fs] = audioread('i/i1.wav');  
                                  % gk ← vetor do sinal amostrado
                                  % fs ← frequência de amostragem
 gk = gpuArray(gk);                                 
@@ -103,8 +103,8 @@ n                  = gpuArray([0:1:N-1]');
 k                  = gpuArray([0:1:N-1]);
 Matriz_expoentes   = n*k;                                                            % Matriz dos expoentes          
 Wn                 = Matriz_jotas.^Matriz_expoentes;                                 % Matriz de Fourier - constante para N fixo
-%Xn  = Wn * gk;                                                                      % Série discreta de Fourier
-Xn  = Wn * Janelado;                                                                 % Série discreta de Fourier
+Xn  = Wn * gk;                                                                      % Série discreta de Fourier
+%Xn  = Wn * Janelado;                                                                 % Série discreta de Fourier
 
 toc;                                                                                 % termina o contador
 
@@ -122,11 +122,11 @@ grid
 %%  6 - Filtragem do ruído 
 %%
 %%
-Ganho = @(w, R, C) 1./(1i*w*R*C + 1);
-R = 1;
-C = 1;
+%Ganho = @(w, R, C) 1./(1i*w*R*C + 1);
+%R = 0.00001;
+%C = 0.1;
 
-filtrado = Ganho(2*pi*fs, R, C).*Xn;
+%filtrado = Ganho(2*pi*fs, R, C).*Xn;
 
 %figure(4)
 
@@ -137,13 +137,11 @@ filtrado = Ganho(2*pi*fs, R, C).*Xn;
 %grid
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  7 - Encontrar f0, f1, f2 para cada vogal gravada por mim
 %%
-%%  fo = 161,4 Hz
-%%  f1 = 640,0 Hz
-%%  f2 = 958,2 Hz
-%%  f3 = 2643,0 Hz
+%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
