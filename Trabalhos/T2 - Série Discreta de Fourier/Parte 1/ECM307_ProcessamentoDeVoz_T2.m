@@ -52,12 +52,13 @@ frequencia        = linspace(-fmax, +fmax, N);       % Vetor de frequência de N
 
 fprintf('\nb) O sinal tem duração de %.3f segundos\n\n', Duracao_Sinal)
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 4 -  Cálculo do X[n] (for) e Cálculo do X[f] (produto matricial)
 %%
-%% X[n] = 1/N sum_{k=0}^{N-1} g(k) exp(-j*n*k*2*pi/N) -> Série de Fourier
+%%  X[n] = 1/N sum_{k=0}^{N-1} g(k) exp(-j*n*k*2*pi/N) -> Série de Fourier
 %% 
-%% X[f] =  exp(-1i*2*pi/N)*ones(N, N).^[0:1:N-1]'*[0:1:N-1] -> Produto Matricial
+%%  X[f] =  exp(-1i*2*pi/N)*ones(N, N).^([0:1:N-1]'*[0:1:N-1]) -> Produto Matricial
 %%
 
 disp('4 - Calculando tempo de execução do algoritmo ...')
