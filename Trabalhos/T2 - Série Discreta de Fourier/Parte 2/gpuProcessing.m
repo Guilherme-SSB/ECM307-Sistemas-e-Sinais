@@ -43,7 +43,7 @@ warning('off')   % Não mostra eventos de warning
 %%% Importação dos Sinais
 disp('2 - Importando os sinais das vogais ...')
 
-[gk, fs] = audioread('i/i1.wav');  
+[gk, fs] = audioread('o/o1.m4a');  
                                  % gk ← vetor do sinal amostrado
                                  % fs ← frequência de amostragem
 gk = gpuArray(gk);                                 
