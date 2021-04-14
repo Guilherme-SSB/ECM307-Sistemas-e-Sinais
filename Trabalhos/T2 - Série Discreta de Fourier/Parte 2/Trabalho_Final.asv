@@ -402,9 +402,7 @@ Dados_ML(:, 4) = labels_tratados;
 %% Removendo os outliers
 Dados_ML = rmoutliers(Dados_ML, 'quartiles');
 
-%% Pela própria documentação do MATLAB, o método 'quartiles' define os outliers 
-%% como os elementos com mais de 1.5 * intervalos interquartílicos (IQR) acima do 
-%% quartil superior ou abaixo que o quartil inferior
+%% Pela própria documentação do MATLAB, o método 'quartiles' define os ou
 
 %%% Observação. Foi realizado o procedimento de Enconding dos dados
 %%% categoricos antes de remover os outliers pois se o método `rmoutliers`
@@ -422,6 +420,7 @@ Dados_labels   = Dados_ML(:, 4);        % Vetor com a implicação da relação 
 %%  10 - Modelo de decisão
 %%
 %%
+%TODO: ARRUMAR LEGENDA DA FIGURA 9
 disp('10 - Criação do modelo de decisão ...')
 
 
@@ -431,6 +430,7 @@ idx = kmeans(Dados_features, 5);
 
 figure(9)
 gscatter(Dados_features(:, 1), Dados_features(:, 2), idx)               % Faz o plot dos clusters identificados pelo kmeans
+%legend('Vogal /e/', 'Vogal /u/', 'Vogal /o/', 'Vogal /a/', 'Vogal /i/')
 legend('Vogal /a/', 'Vogal /e/', 'Vogal /i/', 'Vogal /o/', 'Vogal /u/')
 title('Clusterização das vogais')
 
@@ -485,7 +485,7 @@ fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resp
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  12 - Modelo de previsão por álgebra linear
+%%  12 - Modelo de previsão por algebra linear
 %%
 %%  A métrica adotada será a menor distância euclidiana do ponto de teste 
 %% em relação a média do ponto [f1; f2] de cada vogal
@@ -554,33 +554,41 @@ fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resp
 %%  Foi realizado a gravação de cada vogal mais uma vez, a fim de criarmos os dados de teste do modelo
 %%  Para cada vogal nova, foi obtido o seguinte resultado:
 %%
-%%  Vogal /a/:
+%%  Vogal/a/:
 %%      f0 =    
 %%      f1 = 
 %%      f2 = 
 %%
-%%  Vogal /e/:
+%%  Vogal/e/:
 %%      f0 =    
 %%      f1 = 
 %%      f2 = 
 %%
-%%  Vogal /i/:
+%%  Vogal/i/:
 %%      f0 =    
 %%      f1 = 
 %%      f2 = 
 %%
-%%  Vogal /o/:
+%%  Vogal/o/:
 %%      f0 =    
 %%      f1 = 
 %%      f2 = 
 %%
-%%  Vogal /u/:
+%%  Vogal/u/:
 %%      f0 =    
 %%      f1 = 
 %%      f2 = 
 %%
 %%
 %%  O modelo knn acertou as vogais: , ou seja, obteve uma precisão de
-%%  O modelo por álgebra linear acertou as vogais: , ou seja, obteve uma precisão de
+%%  O modelo por algebra linear acertou as vogais: , ou seja, obteve uma precisão de
 %%
+
+
+
+
+
+
+
+
 
