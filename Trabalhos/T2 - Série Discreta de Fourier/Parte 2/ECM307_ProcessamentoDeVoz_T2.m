@@ -485,7 +485,7 @@ fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resp
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  12 - Modelo de previsão por álgebra linear
+%%  12 - Modelo de previsão por Álgebra Linear
 %%
 %%  A métrica adotada será a menor distância euclidiana do ponto de teste 
 %% em relação a média do ponto [f1; f2] de cada vogal
@@ -504,7 +504,7 @@ gscatter(media_f1(:, 1), media_f2(:, 1), idx_al)
 line(valor_teste(1), valor_teste(2), 'marker', 'x', 'color', 'k', 'markersize',10,'linewidth',2);
 
 legend('Vogal /a/', 'Vogal /e/', 'Vogal /i/', 'Vogal /o/', 'Vogal /u/', 'Dado de teste')
-title('Modelo preditivo por algebra linear')
+title('Modelo preditivo por Álgebra Linear')
 grid
 
 %% Tomando a decisão
@@ -580,7 +580,7 @@ fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resp
 %%      f2 = 
 %%
 %%
-%%  O modelo knn acertou as vogais: , ou seja, obteve uma precisão de
-%%  O modelo por álgebra linear acertou as vogais: , ou seja, obteve uma precisão de
+%%  O modelo Knn acertou as vogais: , ou seja, obteve uma precisão de
+%%  O modelo por Álgebra Linear acertou as vogais: , ou seja, obteve uma precisão de
 %%
 
