@@ -2,6 +2,7 @@
 %%  Guilherme Samuel de Souza Barbosa
 %%  RA: 19.00012-0
 %%
+%%  Processamento de Voz
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  0 - Proposta 
@@ -12,7 +13,7 @@
 %%  d. Eliminar valores fora de contexto e verificar diferenças da base - Tratamento dos Outliers
 %%  e. Gravar 5 vogais que não serão usadas na base (vogais_teste)
 %%  f. 1 - Acertou e 0 - Errou -> a, e, i, o, u
-%%  Ou seja, modelo de ML gera um vetor [1 1 0 0 1]: acertou /a/, /e/ e /u/ e errou /i/ e /o/
+%%      Ou seja, modelo de ML gera um vetor [1 1 0 0 1]: acertou /a/, /e/ e /u/ e errou /i/ e /o/
 %%  g. Verificar qualidade do sistema de aprendizado para cada vogal
 %%
 %%
@@ -445,7 +446,7 @@ modelformed = fitcknn(Dados_features, Dados_labels, 'NumNeighbors', 5, 'Standard
 %%
 disp('11 - Validando o modelo com os dados de teste ...')
 
-valor_teste = [800, 2200];
+valor_teste = [650.4, 1875.2];
 
 line(valor_teste(1), valor_teste(2), 'marker', 'x', 'color', 'k', 'markersize',10,'linewidth',2);
 
@@ -555,32 +556,33 @@ fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resp
 %%  Para cada vogal nova, foi obtido o seguinte resultado:
 %%
 %%  Vogal /a/:
-%%      f0 =    
-%%      f1 = 
-%%      f2 = 
+%%      f1 = 627.9
+%%      f2 = 1165.7
 %%
 %%  Vogal /e/:
-%%      f0 =    
-%%      f1 = 
-%%      f2 = 
+%%      f1 = 476.4
+%%      f2 = 1882.2
 %%
 %%  Vogal /i/:
-%%      f0 =    
-%%      f1 = 
-%%      f2 = 
+%%      f1 = 1735.9
+%%      f2 = 2926.2
 %%
 %%  Vogal /o/:
-%%      f0 =    
-%%      f1 = 
-%%      f2 = 
+%%      f1 = 500.5
+%%      f2 = 864.77
 %%
 %%  Vogal /u/:
-%%      f0 =    
-%%      f1 = 
-%%      f2 = 
+%%      f1 = 650.4
+%%      f2 = 1875.2
 %%
 %%
-%%  O modelo Knn acertou as vogais: , ou seja, obteve uma precisão de
-%%  O modelo por Álgebra Linear acertou as vogais: , ou seja, obteve uma precisão de
+%%  O modelo Knn acertou as vogais: /a/, /e/, /o/, /u/, ou seja, obteve uma precisão de 80%
+%%  O modelo por Álgebra Linear acertou todas as vogais, ou seja, obteve uma precisão de 100%
+%%  
+%%  Portanto, 
+%%    Pelo modelo por Álgebra Linear, o vetor gerado é [1 1 1 1 1] => Acertou as vogais /a/, /e/, /i/, /o/ e /u/
+%%    Pelo modelo Knn, o vetor é [1 1 0 1 1] => Acertou as vogais /a/, /e/, /o/ e /u/ e errou a vogal /i/
 %%
+
+
 
