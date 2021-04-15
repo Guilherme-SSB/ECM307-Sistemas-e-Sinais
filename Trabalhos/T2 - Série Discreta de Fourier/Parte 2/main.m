@@ -43,7 +43,7 @@ warning('off')   % Não mostra eventos de warning
 %%% Importação dos Sinais
 disp('2 - Importando os sinais das vogais ...')
 
-[gk, fs] = audioread('e/e1.wav');  
+[gk, fs] = audioread('a/a1.wav');  
                                  % gk ← vetor do sinal amostrado
                                  % fs ← frequência de amostragem
                                  
@@ -75,6 +75,11 @@ xlabel('Tempo em segundos')
 ylabel('Amplitude')                  
 title('Sinal g(k) amostrado')    
 grid
+
+%%%%%%%%%%%%%%%%
+% Item 4 do T2 
+%%%%%%%%%%%%%%%%
+fprintf('Item 4. Análise Temporal\nSim, como visto na "Figure 1 - Sinal g(k) amostrado", é nítido que há periodicidade do sinal no domínio temporal\n\n')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,8 +121,13 @@ figure(3)
 plot(frequencia, fftshift(log10(abs(Xn))), 'k-', 'linewidth', 2)
 xlabel('Frequência em Hertz')           
 ylabel('Amplitude')                  
-title('Espectro de Amplitudes - Entrada')    
+title('Espectro de Amplitudes')    
 grid
+
+%%%%%%%%%%%%%%%%
+% Item 5 do T2 
+%%%%%%%%%%%%%%%%
+fprintf('\nItem 5. Análise de Fourier\nSim, a periodicidade do sinal no domínio temporal é justificada pela aparição de harmônicas no domínio da frequência, como mostra a "Figure 3 - Espectro de Amplitudes"\n\n')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,18 +140,35 @@ disp('6 - Determinando os picos de energia no domínio da frequência ...')
 data = fftshift(log10(abs(Xn)));
 f    = frequencia(2) - frequencia(1);
 
-[pks,locs] = findpeaks(data, frequencia, "MinPeakDistance", f);
+[picos, index] = findpeaks(data, frequencia, "MinPeakDistance", f);     % Seleciona todos os picos do sinal
 
 pks_positivos = double.empty;
 locs_positivos = double.empty;
 
-for i=1:length(locs)
-    if locs(i) > 0
-        pks_positivos(end+1) = pks(i);
-        locs_positivos(end+1) = locs(i);
+% Separa as possíveis formantes => Apenas os valores de frequência positivos
+for i=1:length(index)
+    if index(i) > 0
+        pks_positivos(end+1) = picos(i);
+        locs_positivos(end+1) = index(i);
     end  
 end
 
+% Seleciona todos os picos do sinal que estão a pelo menos 50 Hz de diferença um do outro.
+% Observação. 50 Hz foi determinado pela menor diferença entre f2 e f1 no dataset
+[index_formantes, picos_formantes] = findpeaks(pks_positivos, locs_positivos, "MinPeakDistance", 50);    
+
+
+figure(4)       % Imprime o gráfico que auxiliará na determinação das formantes
+findpeaks(pks_positivos, locs_positivos, "MinPeakDistance", 50);
+xlabel('Frequência em Hertz')           
+ylabel('Amplitude')
+title('Picos do Sinal')
+grid
+
+%%%%%%%%%%%%%%%%
+% Item 6 do T2 
+%%%%%%%%%%%%%%%%
+fprintf('\nItem 6. Formantes\nOs pontos de pico do sinal podem ser vistos na "Figure 4 - Picos do Sinal"\n\n')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -221,7 +248,7 @@ disp('8 - Realizando a análise estatística dos dados ...')
 
 
 %% Escolha da vogal de análise
-disp('Escolha a vogal que deseja ver os gráficos e informações estatísticas')
+disp('Na linha 237:241 do código, escolha a vogal que deseja ver os gráficos e informações estatísticas')
 ANALISE_A = true;
 ANALISE_E = false;
 ANALISE_I = false;
@@ -256,6 +283,8 @@ scatter(f1_O, f2_O)
 hold on
 scatter(f1_U, f2_U)
 hold on
+xlabel('Formante f1 [Hz]')
+ylabel('Formante f2 [Hz]')
 title('Dispersão de f1 e f2 para cada vogal')
 legend('Vogal /a/', 'Vogal /e/', 'Vogal /i/', 'Vogal /o/', 'Vogal /u/')
 grid
@@ -275,8 +304,8 @@ elseif (ANALISE_O == 1)
 else (ANALISE_U);
     histogram(f1_U, round(sqrt(length(f1_U))))
 end
-xlabel('Eixo x')
-ylabel('Eixo y')
+xlabel('Formante f1 [Hz]')
+ylabel('Frequência')
 title('Histograma de f1 da vogal escolhida')
 grid
 
@@ -293,13 +322,13 @@ elseif (ANALISE_O == 1)
 else (ANALISE_U);
     histogram(f2_U, round(sqrt(length(f2_U))))
 end
-xlabel('Eixo x')
-ylabel('Eixo y')
+xlabel('Formante f2 [Hz]')
+ylabel('Frequência')
 title('Histograma de f2 da vogal escolhida')
 grid
  
 
-%%  Plotando o box plot de análise
+%%  Box plot de análise
 if (ANALISE_A == 1)
    A = [f1_A; f2_A];
    g = [ones(size(f1_A)); 2*ones(size(f2_A))];
@@ -320,53 +349,57 @@ end
 figure(8)
 boxplot(A, g);
 set(gca,'XTickLabel',{'f1','f2'})
+ylabel('Heartz')
 title('Box Plot da vogal escolhida')
 grid
 
 
 %%  Determinando média e desvio padrão de cada frequência de cada vogal
 if (ANALISE_A == 1)
-   disp('Informações da vogal /a/')
-   media_f1 = mean(f1_A) 
-   std_f1   = std(f1_A)
-   media_f2 = mean(f2_A)
-   std_f2   = std(f2_A)
+   fprintf('\nInformações da vogal /a/')
+   media_f1 = mean(f1_A); 
+   std_f1   = std(f1_A);
+   media_f2 = mean(f2_A);
+   std_f2   = std(f2_A);
    
 elseif (ANALISE_E == 1)
    disp('\nInformações da vogal /e/')
-   media_f1 = mean(f1_E) 
-   std_f1   = std(f1_E)
-   media_f2 = mean(f2_E)
-   std_f2   = std(f2_E)
+   media_f1 = mean(f1_E); 
+   std_f1   = std(f1_E);
+   media_f2 = mean(f2_E);
+   std_f2   = std(f2_E);
    
 elseif (ANALISE_I == 1)
    disp('\nInformações da vogal /i/')
-   media_f1 = mean(f1_I) 
-   std_f1   = std(f1_I)
-   media_f2 = mean(f2_I)
-   std_f2   = std(f2_I)
+   media_f1 = mean(f1_I); 
+   std_f1   = std(f1_I);
+   media_f2 = mean(f2_I);
+   std_f2   = std(f2_I);
    
 elseif (ANALISE_O == 1)
    disp('\nInformações da vogal /o/')
-   media_f1 = mean(f1_O) 
-   std_f1   = std(f1_O)
-   media_f2 = mean(f2_O)
-   std_f2   = std(f2_O) 
+   media_f1 = mean(f1_O); 
+   std_f1   = std(f1_O);
+   media_f2 = mean(f2_O);
+   std_f2   = std(f2_O);
    
 else (ANALISE_O);
    disp('\nInformações da vogal /u/')
-   media_f1 = mean(f1_U) 
-   std_f1   = std(f1_U)
-   media_f2 = mean(f2_U)
-   std_f2   = std(f2_U)
+   media_f1 = mean(f1_U); 
+   std_f1   = std(f1_U);
+   media_f2 = mean(f2_U);
+   std_f2   = std(f2_U);
 end 
+
+fprintf('\nPara a formante f1, a média é %.2f e o desvio padrão é %.2f', media_f1, std_f1)
+fprintf('\nPara a formante f2, a média é %.2f e o desvio padrão é %.2f\n\n', media_f2, std_f2)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  9 - Preparando os dados para o modelo de decisão
 %%
 %%
-disp('9 - Preparando os dados que alimentarão o modelo de decisão ...')
+disp('9 - Preparando os dados que alimentarão os modelos de decisão ...')
 
 %% Enconding categorical data
 
@@ -421,36 +454,43 @@ Dados_labels   = Dados_ML(:, 4);        % Vetor com a implicação da relação 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  10 - Modelo de decisão
-%%
+%%  
+%%  K-nearest neighbor classifier
 %%
 disp('10 - Criação do modelo de decisão ...')
 
+%%%%%%%%%%%%%%%%
+% Item 8 do T2 
+%%%%%%%%%%%%%%%%
+fprintf('\nItem 8. Reconhecimento de vogais\nSerão testados dois métodos, K-nearest neighbor classifier e mínima distância euclidiana em relação à média\n\n')
 
-%% Dividindo em clusterings utilizando o algoritmo k-means clustering
+%% Dividindo em clusterings
 
 idx = kmeans(Dados_features, 5);
 
 figure(9)
 gscatter(Dados_features(:, 1), Dados_features(:, 2), idx)               % Faz o plot dos clusters identificados pelo kmeans
-legend('Vogal /a/', 'Vogal /e/', 'Vogal /i/', 'Vogal /o/', 'Vogal /u/')
+xlabel('Formante f1 [Hz]')
+ylabel('Formante f2 [Hz]')
 title('Clusterização das vogais')
 
 %% Treinando o modelo
 
-modelformed = fitcknn(Dados_features, Dados_labels, 'NumNeighbors', 5, 'Standardize', 1);   % Treina o modelo k-nearest neighbor classifier
+modelformed = fitcknn(Dados_features, Dados_labels, 'NumNeighbors', 10, 'Standardize', 1);   % Treina o modelo k-nearest neighbor classifier
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  11 - Verificação do modelo
+%%  11 - Verificação do modelo K-nearest neighbor
 %%
 %%
-disp('11 - Validando o modelo com os dados de teste ...')
+disp('11 - Validação do modelo com os dados de teste ...')
+fprintf('Altere o vetor `valor_teste` na linha 470 para testar o modelo com os seus valores!\n')
 
-valor_teste = [650.4, 1875.2];
+valor_teste = [1000, 2000];     % O vetor 'valor_teste' é composto pelas formantes [f1, f2] que se deseja testar o modelo
 
-line(valor_teste(1), valor_teste(2), 'marker', 'x', 'color', 'k', 'markersize',10,'linewidth',2);
+line(valor_teste(1), valor_teste(2), 'marker', 'x', 'color', 'k', 'markersize',10,'linewidth',2);   % Imprime o valor de teste no gráfico dos clusters
 
-Md = KDTreeSearcher(Dados_features);
+Md = KDTreeSearcher(Dados_features);    % Cria uma instância do objeto KDTreeSearcher
 
 [n,d] = knnsearch(Md, valor_teste, 'k', 10);
 line(Dados_features(n,1), Dados_features(n,2), 'color',[.5 .5 .5], 'marker', 'o', 'linestyle', 'none', 'markersize', 10)
@@ -482,7 +522,7 @@ else
     resposta = 'u';    
 end
 
-fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resposta)
+fprintf('\nCom os valores de teste informado, a predição pelo Knn foi: /%s/ \n', resposta)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -490,7 +530,7 @@ fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resp
 %%
 %%  A métrica adotada será a menor distância euclidiana do ponto de teste 
 %% em relação a média do ponto [f1; f2] de cada vogal
-
+%%
 %% Plotando a média dos valores de f1 e f2 para cada vogal
 media_f1 = [mean(f1_A); mean(f1_E); mean(f1_I); mean(f1_O); mean(f1_U)];
 media_f2 = [mean(f2_A); mean(f2_E); mean(f2_I); mean(f2_O); mean(f2_U)];
@@ -499,6 +539,8 @@ idx_al = 1:5;
 
 figure(10)
 gscatter(media_f1(:, 1), media_f2(:, 1), idx_al)
+xlabel('Formante f1 [Hz]')
+ylabel('Formante f2 [Hz]')
 
 
 %% Plotando o valor de teste
@@ -546,7 +588,7 @@ else
     resposta_al = 'u';    
 end
 
-fprintf('\nCom os valores de teste informado, a predição foi: /%s/ \n\n', resposta_al)
+fprintf('\nCom os valores de teste informado, a predição pela álgebra linear foi: /%s/ \n\n', resposta_al)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
