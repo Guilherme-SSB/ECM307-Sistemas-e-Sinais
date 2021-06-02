@@ -1,3 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%
+%%  @author Guilherme Samuel de Souza Barbosa  RA.: 19.00012-0
+%%  @author Renan Scheidt Reschke  RA.: 19.02009-0
+%%
+%%
 function [b_bckup, c_bckup, erro_min] = erro_minimo(b, c, Vp, t1, t2)
   erro_min  = 9999999;
   N         = 1;
