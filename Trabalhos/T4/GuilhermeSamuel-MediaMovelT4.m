@@ -104,8 +104,7 @@ set(gca,'FontSize',14,'LineWidth',2);
 %%% Conclusões
 
 % 1. Trata-se de um filtro passa-baixas
-% 2. Tem dois nulos
-% 3. Tem fase linear
+% 2. Tem fase linear
 
 
 %% Aplicando filtro ao sinal da gaita
@@ -158,7 +157,7 @@ set(gca,'FontSize',14,'LineWidth',2);
 
 
 %% Criando sinal artificial
-%   gkArtificial[k] = cos(w1*tempo) e w1 --> zero da Transfer Function
+%   gkArtificial[k] = seno(w1*tempo) e w1 --> zero da Transfer Function
 
 %%% Determinando os zeros do ganho
 zeros       = roots(Nd);
